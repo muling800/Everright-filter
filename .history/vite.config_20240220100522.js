@@ -119,19 +119,17 @@ export default defineConfig(({ command, mode }) => {
         }
       }
     }
-    buildConfig.rollupOptions.external.push('element-plus')
-    buildConfig.rollupOptions.output.globals['element-plus'] = 'ElementPlus'
-    // if (FORMATS === 'without-element-plus') {
-    //   buildConfig.rollupOptions.external.push('element-plus')
-    //   buildConfig.rollupOptions.output.globals['element-plus'] = 'ElementPlus'
-    // }
-    // if (FORMATS === 'with-element-plus') {
-    //   config.plugins.push(
-    //     Components({
-    //       resolvers: [ElementPlusResolver()]
-    //     })
-    //   )
-    // }
+    if (FORMATS === 'without-element-plus') {
+      buildConfig.rollupOptions.external.push('element-plus')
+      buildConfig.rollupOptions.output.globals['element-plus'] = 'ElementPlus'
+    }
+    if (FORMATS === 'with-element-plus') {
+      config.plugins.push(
+        Components({
+          resolvers: [ElementPlusResolver()]
+        })
+      )
+    }
     config.build = buildConfig
   }
   return config

@@ -121,8 +121,8 @@ const filterMethod = (node, keyword) => {
 }
 </script>
 <template>
-   <div
-    v-loading="state.loading" class="Everright-filter-el-cascader">
+  <div
+    v-loading="state.loading">
     <el-cascader
       :filter-method="filterMethod"
       v-model="state.value0" :options="state.options"

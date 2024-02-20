@@ -37,6 +37,8 @@
     "dev": "vite --host 0.0.0.0 --port 5174",
     "build": "pnpm run clean:dist && pnpm run build:without-element-plus && pnpm run build:with-element-plus",
     "clean:dist": "rimraf dist",
+    // "build:without-element-plus": "FORMATS='without-element-plus' vite build",
+    // "build:with-element-plus": "FORMATS='with-element-plus' vite build",
     "build:without-element-plus": "vite build",
     "build:with-element-plus": "vite build",
     "preview": "vite preview",
