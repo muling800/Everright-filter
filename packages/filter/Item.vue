@@ -1,5 +1,15 @@
 <script>
-import { computed, ref, reactive, provide, inject, toRefs, onMounted, watch, onBeforeUnmount } from 'vue'
+import {
+  computed,
+  ref,
+  reactive,
+  provide,
+  inject,
+  toRefs,
+  onMounted,
+  watch,
+  onBeforeUnmount
+} from 'vue'
 import NAME from '@ER/filter/name.js'
 import _ from 'lodash-es'
 import hooks from '@ER/hooks'
@@ -12,10 +22,7 @@ export default {
 </script>
 <script setup>
 const ER = inject('Everright')
-const {
-  t,
-  lang
-} = hooks.useI18n()
+const { t, lang } = hooks.useI18n()
 const ERConstraint = inject('EverrightConstraint', '')
 const emit = defineEmits(['del'])
 const props = defineProps({
@@ -35,16 +42,15 @@ const optionContentRef = ref()
 const state = reactive({
   logicalOperator: 'and',
   // rules: ER.props.type === 'quick-filter' ? [] : utils.generateItems(1)
-  rules: /^(quick-search|quick-filter)$/.test(ER.props.type) ? [] : utils.generateItems(1)
+  rules: /^(quick-search|quick-filter)$/.test(ER.props.type)
+    ? []
+    : utils.generateItems(1)
 })
 const isShowOperator = computed(() => {
   return ER.props.type !== 'quick-filter' && state.rules.length > 1
 })
 const isInConstraint = !!ERConstraint
-const {
-  getData,
-  setData
-} = hooks.useCommon(NAME.FILTERITEM, {
+const { getData, setData } = hooks.useCommon(NAME.FILTERITEM, {
   ...toRefs(state),
   ...toRefs(props),
   ruleRef
@@ -87,26 +93,36 @@ if (!isInConstraint) {
     observer = null
   })
 }
-watch(state.rules, (newVal) => {
-  if (!newVal.length) {
-    emit('del')
-  }
-}, { deep: true })
+watch(
+  state.rules,
+  (newVal) => {
+    if (!newVal.length) {
+      emit('del')
+    }
+  },
+  { deep: true }
+)
 const itemLabel = computed(() => {
-  return lang.value === 'zh-cn' ? utils.digitalToChinese(props.parent.indexOf(props.id) + 1) : utils.digitalToEnglish(props.parent.indexOf(props.id) + 1)
+  return lang.value === 'zh-cn'
+    ? utils.digitalToChinese(props.parent.indexOf(props.id) + 1)
+    : utils.digitalToEnglish(props.parent.indexOf(props.id) + 1)
 })
 </script>
 <template>
   <div :class="[ns.b()]">
-    <h2 v-if="!isInConstraint && ER.props.type === 'matrix'">{{ t(`er.${NAME.FILTERITEM}.itemLabel`) }} {{ itemLabel }}</h2>
+    <h2 v-if="!isInConstraint && ER.props.type === 'matrix'">
+      {{ t(`er.${NAME.FILTERITEM}.itemLabel`) }} {{ itemLabel }}
+    </h2>
     <div :class="['EverrightFilterOption']">
       <LogicalOperatorComponent
         v-if="!isInConstraint && isShowOperator"
         :height="operatorHeight"
-        v-model="state.logicalOperator"/>
+        v-model="state.logicalOperator"
+      />
       <div
         ref="optionContentRef"
-        :class="[ns.e('optionContent'), 'EverrightFilterOptionContent']">
+        :class="[ns.e('optionContent'), 'EverrightFilterOptionContent']"
+      >
         <TransitionGroup name="el-fade-in">
           <Rule
             ref="ruleRef"
@@ -119,13 +135,22 @@ const itemLabel = computed(() => {
             :index="index + '-' + i"
           />
         </TransitionGroup>
-        <el-button
-          v-if="isInConstraint ? true : ER.isShowAdd.value"
-          :class="[ns.e('add')]"
-          v-bind="utils.addTestId('addCondition')"
-          @click="addRule"
-          link
-        >{{isInConstraint ? t(`er.${NAME.FILTERITEM}.addProp`) : t(`er.${NAME.FILTERITEM}.addCondition`)}}</el-button>
+        <div style="margin-top: 10px;">
+          <slot>
+            <el-button
+              v-if="isInConstraint ? true : ER.isShowAdd.value"
+              :class="[ns.e('add')]"
+              v-bind="utils.addTestId('addCondition')"
+              @click="addRule"
+              link
+              >{{
+                isInConstraint
+                  ? t(`er.${NAME.FILTERITEM}.addProp`)
+                  : t(`er.${NAME.FILTERITEM}.addCondition`)
+              }}</el-button
+            >
+          </slot>
+        </div>
       </div>
     </div>
   </div>

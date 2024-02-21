@@ -1,7 +1,7 @@
 @include b(PickerComponent) {
   display: flex;
   &>*{
-    margin-right: 15px;
+    margin-right: 10px;
     display: flex;
     align-items: center;
     //padding: 4px 0;

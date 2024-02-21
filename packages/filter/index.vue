@@ -276,6 +276,7 @@ const addGroupLabel = computed(() => {
         :parent="state.store.filters"
         :index="index"
       >
+        <slot></slot>
       </Item>
     </div>
   </div>

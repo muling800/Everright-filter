@@ -18,17 +18,19 @@ const stylePlugin = (options = {}) => {
     load (id) {
       let result = ''
       if (id === resolvedVirtualModuleId) {
-        const filterStyle = 'import \'@ER/theme/filter/index.scss\''
-        const messageStyle = 'import \'element-plus/es/components/message/style/css\''
+        const filterStyle = "import '@ER/theme/filter/index.scss'"
+        const messageStyle =
+          "import 'element-plus/es/components/message/style/css'"
         if (options.mode === 'development') {
           result = messageStyle + '\n' + filterStyle
         } else {
-          if (options.FORMATS === 'with-element-plus') {
-            result = messageStyle + '\n' + filterStyle
-          }
-          if (options.FORMATS === 'without-element-plus') {
-            result = filterStyle
-          }
+          result = messageStyle + '\n' + filterStyle
+          // if (options.FORMATS === 'with-element-plus') {
+          //   result = messageStyle + '\n' + filterStyle;
+          // }
+          // if (options.FORMATS === 'without-element-plus') {
+          //   result = filterStyle;
+          // }
         }
         return result
       }
@@ -36,7 +38,8 @@ const stylePlugin = (options = {}) => {
   }
 }
 export default defineConfig(({ command, mode }) => {
-  const FORMATS = process.env.FORMATS
+  let FORMATS = process.env.FORMATS
+
   const config = {
     test: {
       environment: 'jsdom',
@@ -72,9 +75,8 @@ export default defineConfig(({ command, mode }) => {
     },
     plugins: [
       vue(),
-      eslintPlugin(),
-      vueJsx({
-      }),
+      // eslintPlugin(),
+      vueJsx({}),
       stylePlugin({
         mode,
         FORMATS
@@ -92,6 +94,9 @@ export default defineConfig(({ command, mode }) => {
       }
     }
   }
+
+  FORMATS = 'with-element-plus'
+
   if (command === 'serve') {
     config.plugins.push(
       Components({
@@ -119,8 +124,12 @@ export default defineConfig(({ command, mode }) => {
         }
       }
     }
-    buildConfig.rollupOptions.external.push('element-plus')
-    buildConfig.rollupOptions.output.globals['element-plus'] = 'ElementPlus'
+    config.plugins.push(
+      Components({
+        resolvers: [ElementPlusResolver()]
+      })
+    )
+
     // if (FORMATS === 'without-element-plus') {
     //   buildConfig.rollupOptions.external.push('element-plus')
     //   buildConfig.rollupOptions.output.globals['element-plus'] = 'ElementPlus'
