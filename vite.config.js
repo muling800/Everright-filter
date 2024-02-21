@@ -95,7 +95,7 @@ export default defineConfig(({ command, mode }) => {
     }
   }
 
-  FORMATS = 'with-element-plus'
+  FORMATS = 'with-element-plus3'
 
   if (command === 'serve') {
     config.plugins.push(

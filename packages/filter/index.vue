@@ -1,5 +1,18 @@
 <script>
-import { defineProps, ref, reactive, computed, provide, getCurrentInstance, watch, nextTick, onMounted, isReactive, readonly, toRefs } from 'vue'
+import {
+  defineProps,
+  ref,
+  reactive,
+  computed,
+  provide,
+  getCurrentInstance,
+  watch,
+  nextTick,
+  onMounted,
+  isReactive,
+  readonly,
+  toRefs
+} from 'vue'
 import LogicalOperatorComponent from './components/LogicalOperator.vue'
 import _ from 'lodash-es'
 import async from 'async'
@@ -7,9 +20,7 @@ import Item from './Item.vue'
 import NAME from '@ER/filter/name.js'
 import hooks from '@ER/hooks'
 import utils from '@ER/utils'
-import {
-  useXhr
-} from './xhr'
+import { useXhr } from './xhr'
 export default {
   name: NAME.EVERRIGHTFILTER
 }
@@ -56,10 +67,7 @@ const props = defineProps({
     default: -1
   }
 })
-const {
-  t,
-  lang
-} = hooks.useI18n(props)
+const { t, lang } = hooks.useI18n(props)
 const itemRef = ref()
 const transitionName = ref('el-fade-in')
 const state = reactive({
@@ -79,10 +87,7 @@ const state = reactive({
   isShowAdd: /^(linear|matrix)$/.test(props.type)
 })
 const contentRef = ref()
-const {
-  getData,
-  setData
-} = hooks.useCommon(NAME.EVERRIGHTFILTER, {
+const { getData, setData } = hooks.useCommon(NAME.EVERRIGHTFILTER, {
   ...toRefs(state),
   transitionName,
   itemRef,
@@ -118,7 +123,10 @@ const fireEvent = (type, data) => {
 }
 const isShowAdd = computed(() => {
   // console.log(_.flatten(_.get(itemRef, 'value', []).map(e => e.state.rules)).length)
-  return state.isShowAdd && props.ruleLimit === -1 ? true : _.flatten(_.get(itemRef, 'value', []).map(e => e.state.rules)).length < props.ruleLimit
+  return state.isShowAdd && props.ruleLimit === -1
+    ? true
+    : _.flatten(_.get(itemRef, 'value', []).map((e) => e.state.rules)).length <
+        props.ruleLimit
 })
 provide('Everright', {
   state,
@@ -146,7 +154,9 @@ const initConfiguration = () => {
       return false
     }
     if (props.type === 'quick-filter') {
-      const pickers = state.children.filter(e => e.name === NAME.PICKERCOMPONENT)
+      const pickers = state.children.filter(
+        (e) => e.name === NAME.PICKERCOMPONENT
+      )
       const nodes = _.cloneDeep(flatNodes(state.options))
       while (nodes.length) {
         itemRef.value[0].addRule()
@@ -160,7 +170,9 @@ const initConfiguration = () => {
       fireEvent('init', _.cloneDeep(state.options))
     }
     if (props.type === 'quick-search') {
-      const pickers = state.children.filter(e => e.name === NAME.PICKERCOMPONENT)
+      const pickers = state.children.filter(
+        (e) => e.name === NAME.PICKERCOMPONENT
+      )
       const nodes = _.cloneDeep(flatNodes(state.options))
       itemRef.value[0].addRule()
       state.loading = false
@@ -176,14 +188,15 @@ const getRemoteData = async () => {
     state.options = response.data.options
     state.operators = response.data.operators
     initConfiguration()
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 getRemoteData()
 const pushData = (...arg) => {
   if (props.type === 'linear') {
     const isUniq = _.get(arg, '[1]', false)
-    const pickers = state.children.filter(e => e.name === NAME.PICKERCOMPONENT)
+    const pickers = state.children.filter(
+      (e) => e.name === NAME.PICKERCOMPONENT
+    )
     if (pickers.length === 1 && !pickers[0].state.property) {
       pickers[0].state.property = arg[0]
     } else {
@@ -200,11 +213,23 @@ const pushData = (...arg) => {
     }
   }
 }
-const typesRe = new RegExp(`^(${[NAME.NUMBERTYPE, NAME.TEXTTYPE, NAME.SELECTTYPE, NAME.TIMETYPE, NAME.DATETYPE, NAME.DATECOMPONENT, NAME.REGIONTYPE, NAME.CASCADERTYPE].join('|')})$`)
+const typesRe = new RegExp(
+  `^(${[
+    NAME.NUMBERTYPE,
+    NAME.TEXTTYPE,
+    NAME.SELECTTYPE,
+    NAME.TIMETYPE,
+    NAME.DATETYPE,
+    NAME.DATECOMPONENT,
+    NAME.REGIONTYPE,
+    NAME.CASCADERTYPE
+  ].join('|')})$`
+)
 const clearData = (type) => {
   if (type === 'values') {
-    const types = state.children.filter(e => typesRe.test(e.name))
-    types.forEach(e => {
+    const types = state.children.filter((e) => typesRe.test(e.name))
+    console.log({ types })
+    types.forEach((e) => {
       e.clearData()
     })
   } else {
@@ -231,7 +256,11 @@ const addItem = () => {
   state.store.filters.push(...utils.generateItems(1))
 }
 const addGroupLabel = computed(() => {
-  return `${t(`er.${NAME.EVERRIGHTFILTER}.addGroupLabel`)} ${lang.value === 'zh-cn' ? utils.digitalToChinese(state.store.filters.length + 1) : utils.digitalToEnglish(state.store.filters.length + 1)}`
+  return `${t(`er.${NAME.EVERRIGHTFILTER}.addGroupLabel`)} ${
+    lang.value === 'zh-cn'
+      ? utils.digitalToChinese(state.store.filters.length + 1)
+      : utils.digitalToEnglish(state.store.filters.length + 1)
+  }`
 })
 </script>
 <template>
@@ -242,7 +271,11 @@ const addGroupLabel = computed(() => {
         v-model="state.logicalOperator"
         :contentRef="contentRef"
       />
-      <div v-if="state.options.length" :class="['EverrightFilterOptionContent']" ref="contentRef">
+      <div
+        v-if="state.options.length"
+        :class="['EverrightFilterOptionContent']"
+        ref="contentRef"
+      >
         <TransitionGroup :name="transitionName">
           <Item
             ref="itemRef"
@@ -261,11 +294,11 @@ const addGroupLabel = computed(() => {
           :class="[ns.e('add')]"
           @click="addItem"
           link
-        >{{ addGroupLabel }}</el-button>
+          >{{ addGroupLabel }}</el-button
+        >
       </div>
     </div>
-    <div
-      v-if="/^(linear|quick-search|quick-filter)$/.test(type)">
+    <div v-if="/^(linear|quick-search|quick-filter)$/.test(type)">
       <Item
         ref="itemRef"
         class="EverrightFilterItemSign"

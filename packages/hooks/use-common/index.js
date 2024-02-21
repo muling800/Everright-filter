@@ -471,9 +471,9 @@ export const useCommon = (name, state = {}) => {
           state.dynamicDate.value[key] = ''
         }
         if (!(state.isRange.value === true && /^(quick-filter)$/.test(ER.props.type))) {
-          nextTick(() => {
-            state.absolute.value = false
-          })
+          // nextTick(() => {
+          //   state.absolute.value = false
+          // })
         }
       }
       getData = () => {

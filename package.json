@@ -35,7 +35,7 @@
   "scripts": {
     "dev:server": "nodemon server --watch server",
     "dev": "vite --host 0.0.0.0 --port 5174",
-    "build": "pnpm run clean:dist && pnpm run build:without-element-plus && pnpm run build:with-element-plus",
+    "build": "pnpm run clean:dist && pnpm run build:with-element-plus",
     "clean:dist": "rimraf dist",
     "build:without-element-plus": "vite build",
     "build:with-element-plus": "vite build",

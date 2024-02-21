@@ -295,7 +295,6 @@ const handleLang = (val) => {
 
   .Everright-filter-DateComponent__width {
     width: calc(100% - 430px) !important;
-    min-width: 250px !important;
   }
 
   .Everright-filter-LogicalOperatorComponent {
@@ -303,8 +302,8 @@ const handleLang = (val) => {
   }
 
   .Everright-filter-FilterRule__border {
-    border-bottom: 0px dashed #E0E0E0;
-}
+    border-bottom: 0px dashed #e0e0e0;
+  }
 
   .el-select__wrapper {
     width: 100%;
@@ -388,6 +387,12 @@ const handleLang = (val) => {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+
+  .Everright-filter-PickerComponent > * {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
   }
 }
 </style>
