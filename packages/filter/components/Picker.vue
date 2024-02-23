@@ -104,19 +104,19 @@ const dateOperatorOptions = computed(() => {
     {
       value: 'date',
       label: t('er.public.Date')
-    },
-    {
-      value: 'year',
-      label: t('er.public.year')
-    },
-    {
-      value: 'month',
-      label: t('er.public.month')
-    },
-    {
-      value: 'day',
-      label: t('er.public.day')
     }
+    // {
+    //   value: 'year',
+    //   label: t('er.public.year')
+    // },
+    // {
+    //   value: 'month',
+    //   label: t('er.public.month')
+    // },
+    // {
+    //   value: 'day',
+    //   label: t('er.public.day')
+    // }
   ]
 })
 const isShowDel = computed(() => {
