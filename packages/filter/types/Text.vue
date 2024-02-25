@@ -50,6 +50,11 @@ const handleCurrentChange = () => {
     ER.fireEvent('search')
   }
 }
+
+const thisSelect = ref()
+const handleCurrentSelectChange = () => {
+  thisSelect.value.blur()
+}
 defineExpose({
   getData,
   setData,
@@ -62,6 +67,8 @@ defineExpose({
     :class="[ns.e('width'), v$.value1.$error && ER.props.isShowValidateState && 'ERFILTER-ERROR', utils.addTestId(`${NAME.TEXTTYPE}-select`, 'id')]"
     :popperClass="utils.addTestId(`${NAME.TEXTTYPE}-select-popperClass`, 'id')"
     v-model="state.value1"
+    @change="handleCurrentSelectChange"
+    ref="thisSelect"
     v-if="isTags"
     multiple
     filterable
