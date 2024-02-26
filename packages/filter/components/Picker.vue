@@ -1,5 +1,6 @@
 <script>
 import { ref, computed, nextTick, reactive, inject, unref, toRefs, watch } from 'vue'
+import { ElMessage } from 'element-plus'
 import _ from 'lodash-es'
 import hooks from '@ER/hooks'
 import NAME from '@ER/filter/name.js'
@@ -124,10 +125,11 @@ const isShowDel = computed(() => {
 })
 const handleClick = (val) => {
   if (ER.state.store.filters.length === 1 && props.parent.length === 1 && !_.isEmpty(state.property)) {
-    state.property = ''
-    emit('listener', {
-      type: 'clear'
-    })
+    ElMessage.warning('请至少保留一个筛选项！')
+    // state.property = ''
+    // emit('listener', {
+    //   type: 'clear'
+    // })
   } else {
     props.parent.splice(props.parent.indexOf(props.id), 1)
   }

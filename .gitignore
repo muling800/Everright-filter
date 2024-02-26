@@ -28,6 +28,7 @@ auto-imports.d.ts
 components.d.ts
 
 .yarn/*
+.history/*
 backend/uploads
 uploads
 backend/data
